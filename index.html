@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
+
 <head>
     <style>
-    ul {
-        display: flex;
-        list-style: none;
-    }
- 
-    li {
-        cursor: pointer;
-        padding: 0 20px;
-    }
- 
-    li:hover {
-        color: brown;
-    }
+        ul.playBtn {
+            display: flex;
+            list-style: none;
+            font-style: italic;
+        }
+
+        li {
+            cursor: pointer;
+            padding: 0 20px;
+        }
+
+        li:hover {
+            color: brown;
+        }
     </style>
- 
- 
+
+
 </head>
+
 <body>
     <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/ef0Wh2wM91U" frameborder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
@@ -26,231 +29,258 @@
     <!-- 1.ここの<div>タグがYoutubeの<iframe>に置き換わる。 -->
     <div id="piyopiyo"></div>
     <nav>
-    <ul>
-        <li id="doplay">再生</li>
-        <li id="dopause">一時停止</li>
-        <li id="dostop">停止</li>
-        <li id="do1prev">1分前へ</li>
-        <li id="do1next">1分先へ</li>
-        <li id="dovolup">音量アップ</li>
-        <li id="dovoldown">音量ダウン</li>
-        <li id="mute">ミュート</li>
-<!--         <li>
-        <select id="MovieId" class="ytMovie" name="ytMovie">
-            <option value="q25WRWP_xcU">キズナアイ</option>
-            <option value="0V1vk83iV-o">ミライアカリ</option>
-            <option value="TeKTVFgw1hM">輝夜月</option>
-            <option value="fLC5TE_KYcw">シロ</option>
-            <option value="e61Zd60vVPw">キミノミヤ & ココン</option>
-        </select>
-        </li> -->
-        <li>
-        <form id="doSpeed">
-        <input type="radio" id="mslow" name="speed" value="0.25">
-        <label for="mslow">0.25</label>
-        <input type="radio" id="slow" name="speed" value="0.5">
-        <label for="slow">0.5</label>
-        <input type="radio" id="normal" name="speed" value="1.0" checked>
-        <label for="normal">1</label>
-        <input type="radio" id="hspeed" name="speed" value="1.5">
-        <label for="hspeed">1.5</label>
-        <input type="radio" id="mhspeed" name="speed" value="2">
-        <label for="mhspeed">2</label>
-<input type="search" id="ytSearch" value="VTuber">
-<button id="searchBtn">検索</button>
-<section class="searchlist">
-</section>
-        </form>
-        </li>
-    </ul>
+        <ul class="playBtn">
+            <li id="doplay">再生</li>
+            <li id="dopause">一時停止</li>
+            <li id="dostop">停止</li>
+            <li id="do1prev">1分前へ</li>
+            <li id="do1next">1分先へ</li>
+            <li id="dovolup">音量アップ</li>
+            <li id="dovoldown">音量ダウン</li>
+            <li id="mute">ミュート</li>
+            <li>
+                <select id="MovieId" class="ytMovie" name="ytMovie">
+                    <option value="q25WRWP_xcU">キズナアイ</option>
+                    <option value="0V1vk83iV-o">ミライアカリ</option>
+                    <option value="TeKTVFgw1hM">輝夜月</option>
+                    <option value="fLC5TE_KYcw">シロ</option>
+                    <option value="e61Zd60vVPw">キミノミヤ & ココン</option>
+                </select>
+            </li>
+            <li>
+                <form id="doSpeed">
+                    <input type="radio" id="mslow" name="speed" value="0.25">
+                    <label for="mslow">0.25</label>
+                    <input type="radio" id="slow" name="speed" value="0.5">
+                    <label for="slow">0.5</label>
+                    <input type="radio" id="normal" name="speed" value="1.0" checked>
+                    <label for="normal">1</label>
+                    <input type="radio" id="hspeed" name="speed" value="1.5">
+                    <label for="hspeed">1.5</label>
+                    <input type="radio" id="mhspeed" name="speed" value="2">
+                    <label for="mhspeed">2</label>
+                </form>
+            </li>
+        </ul>
     </nav>
+    <form>
+        <input type="search" id="ytsearch" value="Vtuber">
+        <button id="searchBtn">検索</button>
+    </form>
+
+    <section id="searchlist">
+
+    </section>
+
     <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
     <script>
-    // 2. This code loads the IFrame Player API code asynchronously.
-    // 2.変数tagにscriptタグを作って入れる。Element=要素、Attrubute=属性
-    var tag = document.createElement('script');
- 
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    //firstScriptTagの前にtag（<script src="https://www.youtube.com/iframe_api">）を入れる。
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
- 
-    // 3. This function creates an <iframe> (and YouTube player)
-    //    after the API code downloads.
-    //3.APIのコードを読み込んでから、この関数を<iframe>内に影響させる。
- 
-    //変数playerの宣言
-    var player;
-    let youtubeId = 'q25WRWP_xcU';
- 
-    //関数を実行するぜ　onYouTubeIframeAPIReady
-    function onYouTubeIframeAPIReady() {
-        //最初のplayerは、変数。後ろのplayerは、<div>のid
-        player = new YT.Player('piyopiyo', {
-        height: '360',
-        width: '640',
-        videoId: youtubeId,
-        events: {
-            'onReady': onPlayerReady,
-            //'onStateChange': onPlayerStateChange
-        }
-        });
-    }
+        // 2. This code loads the IFrame Player API code asynchronously.
+        // 2.変数tagにscriptタグを作って入れる。Element=要素、Attrubute=属性
+        var tag = document.createElement('script');
 
-    //検索ボタンをクリックすると
-$("#searchBtn").on("click",function(){
-    //<ul"を書き換える
-    $('.searchlist').html('<ul>"');
-    //変数searchMovieに文字列を代入
-    let searchMovie = $("#ytSearch").val();
-  //ajaxの処理をここに書く
-  $.ajax({
-url: 'https://www.googleapis.com/youtube/v3/search', // YouTube DATA API: search
-dataType: 'json',
-data: {
-    part: 'snippet',
-    type: 'video',
-    q: searchMovie,
-    maxResults: 10,
-    key: 'AIzaSyA3SK1ScgkqZkqECDoFvnC9u27l29trm28' // APIキー
-}
-})
-//先ほどの$.ajaxの.done部分を編集
-.done(function(data) {
-    //data.itemsの要素数分ループさせる
-    for(let i=0; data.items.length>i; i++){
-        console.log(data.items[i].id);
-        //searchlist内にappendさせる。中身はタイトルに動画URLのリンクを付ける。
-        $('#searchlist ul').append('<li><a href="https://www.youtube.com/watch?v=' + data.items[i].id.videoId + '">' + data.items[i].snippet.title + '</a></li>')
-    }
-}).fail((data) => {
-    //失敗した場合の処理
-    console.log(data.responseText);  //レスポンス文字列を表示
-    });
-});
- 
-    // 4. The API will call this function when the video player is ready.
-    //4.このAPIは、video playderが準備でしたら、この関数を呼び出します。
-    function onPlayerReady(event) {
-        event.target.playVideo();
-    }
- 
-    // 5. The API calls this function when the player's state changes.
-    //video playerのステート（状態）が変更されたら、この関数を呼び出す。
-    //    The function indicates that when playing a video (state=1),
-    //　動画を再生するときの設定は、state=1にしておきます。
-    //    the player should play for six seconds and then stop.
-    //　プレイヤーは、6000ミリ秒後に終了します。
-    /*var done = false;
-    function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-            setTimeout(stopVideo, 6000);
-            done = true;
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        //firstScriptTagの前にtag（<script src="https://www.youtube.com/iframe_api">）を入れる。
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // 3. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        //3.APIのコードを読み込んでから、この関数を<iframe>内に影響させる。
+
+        //変数playerの宣言
+        var player;
+        let youtubeId = 'q25WRWP_xcU';
+
+        //関数を実行するぜ　onYouTubeIframeAPIReady
+        function onYouTubeIframeAPIReady() {
+            //最初のplayerは、変数。後ろのplayerは、<div>のid
+            player = new YT.Player('piyopiyo', {
+                height: '360',
+                width: '640',
+                videoId: youtubeId,
+                events: {
+                    //'onReady': onPlayerReady,
+                    //'onStateChange': onPlayerStateChange
+                }
+            });
         }
-    }*/
- 
-    //停止関数
-    function stopVideo() {
-        player.stopVideo();
-    }
-    //再生関数
-    function playVideo() {
-        player.playVideo();
-    }
-    //一時停止関数
-    function pauseVideo() {
-        player.pauseVideo();
-    };
-    //1分前に関数
-    function onePrev() {
-        var currentTime = player.getCurrentTime();
-        player.seekTo(currentTime - 60);
-    };
-    //1分後に関数
-    function oneNext() {
-        var currentTime = player.getCurrentTime();
-        player.seekTo(currentTime + 60);
-    }
-    //ボリュームアップ関数
-    function volup() {
-        var currentVol = player.getVolume();
-        player.setVolume(currentVol + 10);
-    };
-    //ボリュームダウン関数
-    function voldown() {
-        var currentVol = player.getVolume();
-        player.setVolume(currentVol - 10);
-    };
-    //ミュート関数
-    function onMute() {
-        if (player.isMuted()) {
-        player.unMute();
-        } else {
-        player.mute();
+
+        // 4. The API will call this function when the video player is ready.
+        //4.このAPIは、video playderが準備でしたら、この関数を呼び出します。
+        function onPlayerReady(event) {
+            event.target.playVideo();
         }
-    }
-    //再生スピード関数
-    function playSpeed(num) {
-        //setPlaybackRateが再生スピードをセットするメソッド
-        console.log(num);
-        player.setPlaybackRate(num);
-        player.playVideo();
-    }
- 
-    //再生イベント
-    let doplayBtn = document.getElementById('doplay');
-    doplayBtn.addEventListener('click', function() {
-        playVideo();
-    })
-    //停止イベント
-    let dostopBtn = document.getElementById('dostop');
-    dostopBtn.addEventListener('click', function() {
-        stopVideo();
-    })
-    //一時停止イベント
-    let dopauseBtn = document.getElementById('dopause');
-    dopauseBtn.addEventListener('click', function() {
-        pauseVideo();
-    })
-    //一分前イベント
-    let onePrevBtn = document.getElementById('do1prev');
-    onePrevBtn.addEventListener('click', function() {
-        onePrev();
-    })
-    //一分後イベント
-    let oneNextBtn = document.getElementById('do1next');
-    oneNextBtn.addEventListener('click', function() {
-        oneNext();
-    })
-    //ボリュームアップイベント
-    let volUpBtn = document.getElementById('dovolup');
-    volUpBtn.addEventListener('click', function() {
-        volup();
-    })
-    //ボリュームダウンイベント
-    let volDownBtn = document.getElementById('dovoldown');
-    volDownBtn.addEventListener('click', function() {
-        voldown();
-    })
-    //ミュートイベント
-    let onMuteBtn = document.getElementById('mute');
-    onMuteBtn.addEventListener('click', function() {
-        onMute();
-    })
-    //動画切り替えイベント
-    let movieid = document.getElementById('MovieId');
-    movieid.addEventListener('change', function() {
-        youtubeId = movieid.value;
-        //プレイヤー削除
-        player.destroy();
-        onYouTubeIframeAPIReady();
-    });
-    //再生スピードイベント
-    let speedBtn = document.getElementById('doSpeed');
-    speedBtn.addEventListener('change', function() {
-        //数値でないと効かないので、文字列から数値に変換
-        playSpeed(parseFloat(speedBtn.speed.value));
-    })
+
+        // 5. The API calls this function when the player's state changes.
+        //video playerのステート（状態）が変更されたら、この関数を呼び出す。
+        //    The function indicates that when playing a video (state=1),
+        //　動画を再生するときの設定は、state=1にしておきます。
+        //    the player should play for six seconds and then stop.
+        //　プレイヤーは、6000ミリ秒後に終了します。
+        /*var done = false;
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                setTimeout(stopVideo, 6000);
+                done = true;
+            }
+        }*/
+
+        //停止関数
+        function stopVideo() {
+            player.stopVideo();
+        }
+        //再生関数
+        function playVideo() {
+            player.playVideo();
+        }
+        //一時停止関数
+        function pauseVideo() {
+            player.pauseVideo();
+        };
+        //1分前に関数
+        function onePrev() {
+            var currentTime = player.getCurrentTime();
+            player.seekTo(currentTime - 60);
+        };
+        //1分後に関数
+        function oneNext() {
+            var currentTime = player.getCurrentTime();
+            player.seekTo(currentTime + 60);
+        }
+        //ボリュームアップ関数
+        function volup() {
+            var currentVol = player.getVolume();
+            player.setVolume(currentVol + 10);
+        };
+        //ボリュームダウン関数
+        function voldown() {
+            var currentVol = player.getVolume();
+            player.setVolume(currentVol - 10);
+        };
+        //ミュート関数
+        function onMute() {
+            if (player.isMuted()) {
+                player.unMute();
+            } else {
+                player.mute();
+            }
+        }
+        //再生スピード関数
+        function playSpeed(num) {
+            //setPlaybackRateが再生スピードをセットするメソッド
+            console.log(num);
+            player.setPlaybackRate(num);
+            player.playVideo();
+        }
+
+        //再生イベント
+        let doplayBtn = document.getElementById('doplay');
+        doplayBtn.addEventListener('click', function () {
+            playVideo();
+        })
+        //停止イベント
+        let dostopBtn = document.getElementById('dostop');
+        dostopBtn.addEventListener('click', function () {
+            stopVideo();
+        })
+        //一時停止イベント
+        let dopauseBtn = document.getElementById('dopause');
+        dopauseBtn.addEventListener('click', function () {
+            pauseVideo();
+        })
+        //一分前イベント
+        let onePrevBtn = document.getElementById('do1prev');
+        onePrevBtn.addEventListener('click', function () {
+            onePrev();
+        })
+        //一分後イベント
+        let oneNextBtn = document.getElementById('do1next');
+        oneNextBtn.addEventListener('click', function () {
+            oneNext();
+        })
+        //ボリュームアップイベント
+        let volUpBtn = document.getElementById('dovolup');
+        volUpBtn.addEventListener('click', function () {
+            volup();
+        })
+        //ボリュームダウンイベント
+        let volDownBtn = document.getElementById('dovoldown');
+        volDownBtn.addEventListener('click', function () {
+            voldown();
+        })
+        //ミュートイベント
+        let onMuteBtn = document.getElementById('mute');
+        onMuteBtn.addEventListener('click', function () {
+            onMute();
+        })
+        //動画切り替えイベント
+        let movieid = document.getElementById('MovieId');
+        movieid.addEventListener('change', function () {
+            youtubeId = movieid.value;
+            //プレイヤー削除
+            player.destroy();
+            onYouTubeIframeAPIReady();
+        });
+        //再生スピードイベント
+        let speedBtn = document.getElementById('doSpeed');
+        speedBtn.addEventListener('change', function () {
+            //数値でないと効かないので、文字列から数値に変換
+            playSpeed(parseFloat(speedBtn.speed.value));
+        })
+    </script>
+    <script>
+        //ajax: Youtube Data API v3
+
+        //検索窓の値を取得して、変数searchMovieに代入
+        $("#searchBtn").on("click", function () {
+            //変数searchMovieに文字列を代入
+            let searchMovie = $("#ytsearch").val();
+            $('#searchlist').html('<ul>');
+            $('#MovieId').empty();
+            console.log(searchMovie);
+
+            //ajaxの処理
+            $.ajax({
+                url: 'https://www.googleapis.com/youtube/v3/search',
+                dataType: 'json',
+                data: {
+                    part: 'snippet',
+                    type: 'video',
+                    q: searchMovie,
+                    maxResults: 10,
+                    key: 'AIzaSyA3SK1ScgkqZkqECDoFvnC9u27l29trm28'
+                }
+            }).done(function (json) {
+                $('#MovieId').append('<option value="0" disabled="disabled" selected>選択してください</option>');
+                //10にする。
+                for (let i = 0; i < 10; i = i + 1) {
+                    console.log(json.items[i].length)
+                    console.log('https://www.youtube.com/watch?v=' + json.items[i].id.videoId);//ヒント①
+
+                    //<section id="searchlist"></section>の中に、append（※追加）せよ。何を？<p>ここだよ</p>を。
+                    //$('#searchlist').append('<p>https://www.youtube.com/watch?v=' + json.items[i].id.videoId + '<p>');
+
+                    //タイトルを表示したいぞ。どうすればいい？
+                    $('#searchlist ul').append('<li><a href="https://www.youtube.com/watch?v=' + json.items[i].id.videoId + '">' + json.items[i].snippet.title + '</a></li>')
+
+                    //serectメニューに表示
+                    $('#MovieId').append('<option value="' + json.items[i].id.videoId + '">' + json.items[i].snippet.title + '</option>');
+
+                }
+            }).fail((data) => {
+                //失敗した場合の処理
+                console.log(data.responseText);  //レスポンス文字列を表示
+            });
+
+            //bottonのリロード防止
+            return false;
+
+        });
+
+
+
+
     </script>
 </body>
+
 </html>
