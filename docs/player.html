@@ -4,18 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>YouTube API｜Pure JS</title>
+    <title>YouTube Player API</title>
   </head>
   <body>
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <!-- 1. ここの<div>タグがYoutubeの<iframe>に置き換わる。 -->
     <div id="player"></div>
-    <form>
-      <input type="search" id="ytSearch" value="YOASOBI" />
-      <button id="searchBtn">検索</button>
-    </form>
-
-    <section class="searchlist"></section>
     <nav>
       <ul>
         <li id="doplay">再生</li>
@@ -107,8 +101,8 @@
       //    The function indicates that when playing a video (state=1),
       //    the player should play for six seconds and then stop.
       /* 5. video playerのステート（状態）が変更されたら、この関数を呼び出す。
-                  動画を再生するときの設定は、state=1にしておきます。
-                  プレイヤーは、6000ミリ秒後に終了します。 */
+            動画を再生するときの設定は、state=1にしておきます。
+            プレイヤーは、6000ミリ秒後に終了します。 */
       var done = false;
       function onPlayerStateChange(event) {
         if (event.data == YT.PlayerState.PLAYING && !done) {
@@ -166,96 +160,59 @@
         player.playVideo();
       }
 
-      //再生イベント
-      let doplayBtn = document.getElementById("doplay");
-      doplayBtn.addEventListener("click", function () {
+      //jQueryを利用時の再生イベント
+      $("#doplay").on("click", function () {
         playTheVideo();
       });
-      //停止イベント
-      let dostopBtn = document.getElementById("dostop");
-      dostopBtn.addEventListener("click", function () {
+
+      //jQueryを利用時の停止イベント
+      $("#dostop").on("click", function () {
         stopVideo();
       });
-      //一時停止イベント
-      let dopauseBtn = document.getElementById("dopause");
-      dopauseBtn.addEventListener("click", function () {
+
+      //jQueryを利用時の一時停止イベント
+      $("#dopause").on("click", function () {
         pauseTheVideo();
       });
-      //10分前イベント
-      let onePrevBtn = document.getElementById("do10sPrev");
-      onePrevBtn.addEventListener("click", function () {
-        onePrev();
-      });
-      //10分後イベント
-      let oneNextBtn = document.getElementById("do10sNext");
-      oneNextBtn.addEventListener("click", function () {
-        oneNext();
-      });
-      //ボリュームイベント
-      let volumeBtn = document.querySelector("#volume");
-      let volumeTxt = document.querySelector("#volumeNum");
-      volumeBtn.addEventListener("input", function () {
-        volumeFn(this.value);
-        volumeTxt.textContent = this.value;
-      });
-      //ミュートイベント
-      let onMuteBtn = document.querySelector("#mute");
-      onMuteBtn.addEventListener("click", function () {
+
+      //jQueryを利用時のミュートイベント
+      $("#mute").on("click", function () {
         onMute();
-        if (onMuteBtn.innerText === "ミュート") {
-          onMuteBtn.innerText = "ミュート解除";
+        if ($(this).text() === "ミュート") {
+          $(this).text("ミュート解除");
         } else {
-          onMuteBtn.innerText = "ミュート";
+          $(this).text("ミュート");
         }
       });
 
-      //動画切り替えイベント
-      let movieid = document.getElementById("MovieId");
-      movieid.addEventListener("change", function () {
-        youtubeId = movieid.value;
+      //jQuery利用時の10秒前へイベント
+      $("#do10sPrev").on("click", function () {
+        onePrev();
+      });
+
+      //jQuery利用時の10秒後へイベント
+      $("#do10sNext").on("click", function () {
+        oneNext();
+      });
+
+      //jQuery利用時のボリュームイベント
+      $("#volume").on("input", function () {
+        volumeFn($(this).val());
+        $("#volumeNum").text($(this).val());
+      });
+
+      //jQuery利用時の動画切り替えイベント
+      $("#MovieId").on("change", function () {
+        youtubeId = $(this).val();
         //プレイヤー削除
         player.destroy();
         onYouTubeIframeAPIReady();
       });
-      //再生スピードイベント
-      let speedBtn = document.getElementById("doSpeed");
-      speedBtn.addEventListener("change", function () {
+
+      //jQuery利用時の再生スピードイベント
+      $("#doSpeed input[name = speed]").on("change", function () {
         //数値でないと効かないので、文字列から数値に変換
-        playSpeed(parseFloat(speedBtn.speed.value));
-      });
-
-      function ytSearch(val) {
-        let key = "AIzaSyBkJChb5nTLr17bF6qrCw1ItRDcQonfd7I";
-        let num = 10;
-        let part = "snippet";
-        let type = "video";
-        let query = val;
-        fetch(
-          `https://www.googleapis.com/youtube/v3/search?type=${type}&part=${part}&maxResults=${num}&key=${key}&q=${query}`
-        )
-          .then((data) => data.json())
-          .then((obj) => {
-            //現在入っている<option>を全て削除
-            movieid.innerHTML = null;
-            for (let property in obj["items"]) {
-              //各videoIdとタイトルを取得して変数に代入
-              let ytId = obj["items"][property]["id"]["videoId"];
-              let ytTitle = obj["items"][property]["snippet"]["title"];
-              //optionを作成して、videoIdとtitleを所定の場所に設置し、要素を追加していく。
-              let optionTag = document.createElement("option");
-              optionTag.textContent = ytTitle;
-              optionTag.setAttribute("value", ytId);
-              movieid.appendChild(optionTag);
-            }
-          });
-      }
-
-      //検索ボタンイベント
-      let ytSearchBtn = document.querySelector("#searchBtn");
-      ytSearchBtn.addEventListener("click", function (e) {
-        let ytSearchVal = document.querySelector("#ytSearch").value;
-        ytSearch(ytSearchVal);
-        e.preventDefault(); //検索ボタンの送信をストップしておく。
+        playSpeed(parseFloat($(this).val()));
       });
     </script>
   </body>
