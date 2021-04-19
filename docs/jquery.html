@@ -91,6 +91,7 @@
             onReady: onPlayerReady,
             //onStateChange: onPlayerStateChange,
           },
+          playsinline:1,
         });
       }
 
@@ -231,7 +232,6 @@
             type: "video",
             q: val, //検索フォーム内の値を取得
             maxResults: 10, //検証のため5に変更
-            playsinline: 1, //インライン再生
             key: "AIzaSyAc1D57-T6aMEGc_W8PFEOwminz8RGJzkg", // APIキー
           },
         }).done(function (data) {
