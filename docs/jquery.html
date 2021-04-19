@@ -70,7 +70,7 @@
       // 2. 変数tagにscriptタグを作って入れる。Element=要素、Attrubute=属性
       var tag = document.createElement("script");
 
-      tag.src = "https://www.youtube.com/iframe_api";
+      tag.src = "https://www.youtube.com/iframe_api?playsinline:1&controls:0";
       var firstScriptTag = document.getElementsByTagName("script")[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
@@ -91,8 +91,6 @@
             onReady: onPlayerReady,
             //onStateChange: onPlayerStateChange,
           },
-          playsinline:1,
-          controls:0,
         });
       }
 
