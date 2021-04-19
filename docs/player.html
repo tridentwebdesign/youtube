@@ -81,6 +81,10 @@
           height: "360",
           width: "640",
           videoId: youtubeId, //②videoIdをyoutubeIdに変更
+          playerVars:{  //③パラメータの設定
+            playsinline:1,
+            controls:0,
+          },
           events: {
             onReady: onPlayerReady,
             //onStateChange: onPlayerStateChange,
