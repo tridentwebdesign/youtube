@@ -23,7 +23,7 @@
         <li id="dopause">一時停止</li>
         <li id="mute">ミュート</li>
         <li id="do10sNext">10秒先へ</li>
-        <li id="do10sPrev">10秒前へ</li>
+        <li id="do10sPrev">10秒戻る</li>
         <li>
           <label
             >ボリューム<input
@@ -206,7 +206,7 @@
       });
 
       //jQuery利用時のボリュームイベント
-      $("#volume").on("input", function () {
+      $("#volume").on("change", function () {
         volumeFn($(this).val());
         $("#volumeNum").text($(this).val());
       });

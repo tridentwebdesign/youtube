@@ -23,7 +23,7 @@
         <li id="dopause">一時停止</li>
         <li id="mute">ミュート</li>
         <li id="do10sNext">10秒先へ</li>
-        <li id="do10sPrev">10秒前へ</li>
+        <li id="do10sPrev">10秒戻る</li>
         <li>
           <label
             >ボリューム<input
@@ -198,7 +198,7 @@
       //ボリュームイベント
       let volumeBtn = document.querySelector("#volume");
       let volumeTxt = document.querySelector("#volumeNum");
-      volumeBtn.addEventListener("input", function () {
+      volumeBtn.addEventListener("change", function () {
         volumeFn(this.value);
         volumeTxt.textContent = this.value;
       });
