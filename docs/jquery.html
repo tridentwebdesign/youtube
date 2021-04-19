@@ -101,10 +101,11 @@
       // 4. The API will call this function when the video player is ready.
       // 4. このAPIは、video playderが準備でしたら、この関数を呼び出します。
       function onPlayerReady(event) {
-        //event.target.playVideo(); ①最初の再生を止める
-        let currentVol = event.target.getVolume(); //②現在の音量を取得
-        document.querySelector("#volume").value = currentVol; //③rangeFormに音量を設定
-        document.querySelector("#volumeNum").textContent = currentVol; //④テキストにも音量を数値で表示
+        //event.target.playVideo(); ①最初の再生を止める  
+        let currentVol = 5 //②最初のボリュームを設定（0〜100）
+        event.target.setVolume(currentVol);//③Playerのボリュームに設定
+        document.querySelector("#volume").value = currentVol; //④rangeFormに音量を設定
+        document.querySelector("#volumeNum").textContent = currentVol; //⑤テキストにも音量を数値で表示
       }
 
       // 5. The API calls this function when the player's state changes.
