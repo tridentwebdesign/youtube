@@ -68,10 +68,10 @@
     <script>
       // 2. This code loads the IFrame Player API code asynchronously.
       // 2. 変数tagにscriptタグを作って入れる。Element=要素、Attrubute=属性
-      var tag = document.createElement("script");
+      let tag = document.createElement("script");
 
       tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName("script")[0];
+      let firstScriptTag = document.getElementsByTagName("script")[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
       // 3. This function creates an <iframe> (and YouTube player)
@@ -114,7 +114,7 @@
       /* 5. video playerのステート（状態）が変更されたら、この関数を呼び出す。
                   動画を再生するときの設定は、state=1にしておきます。
                   プレイヤーは、6000ミリ秒後に終了します。 */
-      var done = false;
+      let done = false;
       function onPlayerStateChange(event) {
         if (event.data == YT.PlayerState.PLAYING && !done) {
           setTimeout(stopVideo, 6000);
