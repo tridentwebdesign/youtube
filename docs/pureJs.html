@@ -72,6 +72,7 @@
 
       //①video IDを変数 youtubeIdに代入
       let youtubeId = "We__CnrYa9U"; //TRiDENT『DISTINATION』
+
       function onYouTubeIframeAPIReady() {
         //最初のplayerは、変数。後ろのplayerは、<div>のid
         player = new YT.Player("player", {
@@ -83,7 +84,7 @@
             controls: 0,
           },
           events: {
-            onReady: onPlayerReady,
+            //onReady: onPlayerReady,
             //onStateChange: onPlayerStateChange,
           },
         });
@@ -93,7 +94,7 @@
       // 4. このAPIは、video playderが準備でしたら、この関数を呼び出します。
       function onPlayerReady(event) {
         //event.target.playVideo(); ①最初の再生を止める
-        let currentVol = 5; //②最初のボリュームを設定（0〜100）
+        const currentVol = 5; //②最初のボリュームを設定（0〜100）
         event.target.setVolume(currentVol); //③Playerのボリュームに設定
         document.querySelector("#volume").value = currentVol; //④rangeFormに音量を設定
         document.querySelector("#volumeNum").textContent = currentVol; //⑤テキストにも音量を数値で表示
@@ -103,8 +104,8 @@
       //    The function indicates that when playing a video (state=1),
       //    the player should play for six seconds and then stop.
       /* 5. video playerのステート（状態）が変更されたら、この関数を呼び出す。
-                  動画を再生するときの設定は、state=1にしておきます。
-                  プレイヤーは、6000ミリ秒後に終了します。 */
+           動画を再生するときの設定は、state=1にしておきます。
+           プレイヤーは、6000ミリ秒後に終了します。 */
       let done = false;
       function onPlayerStateChange(event) {
         if (event.data == YT.PlayerState.PLAYING && !done) {
@@ -206,26 +207,27 @@
       });
 
       //動画切り替えイベント
-      let movieid = document.getElementById("MovieId");
+      const movieid = document.getElementById("MovieId");
       movieid.addEventListener("change", function () {
         youtubeId = movieid.value;
         //プレイヤー削除
         player.destroy();
         onYouTubeIframeAPIReady();
       });
+
       //再生スピードイベント
-      let speedBtn = document.getElementById("doSpeed");
+      const speedBtn = document.getElementById("doSpeed");
       speedBtn.addEventListener("change", function () {
         //数値でないと効かないので、文字列から数値に変換
         playSpeed(parseFloat(speedBtn.speed.value));
       });
 
       function ytSearch(val) {
-        let key = "AIzaSyBkJChb5nTLr17bF6qrCw1ItRDcQonfd7I";
-        let num = 10;
-        let part = "snippet";
-        let type = "video";
-        let query = val;
+        const key = "AIzaSyBkJChb5nTLr17bF6qrCw1ItRDcQonfd7I";
+        const num = 10;
+        const part = "snippet";
+        const type = "video";
+        const query = val;
         fetch(`https://www.googleapis.com/youtube/v3/search?type=${type}&part=${part}&maxResults=${num}&key=${key}&q=${query}&playsinline=1`)
           .then((data) => data.json())
           .then((obj) => {
@@ -233,10 +235,10 @@
             movieid.innerHTML = null;
             for (let property in obj["items"]) {
               //各videoIdとタイトルを取得して変数に代入
-              let ytId = obj["items"][property]["id"]["videoId"];
-              let ytTitle = obj["items"][property]["snippet"]["title"];
+              const ytId = obj["items"][property]["id"]["videoId"];
+              const ytTitle = obj["items"][property]["snippet"]["title"];
               //optionを作成して、videoIdとtitleを所定の場所に設置し、要素を追加していく。
-              let optionTag = document.createElement("option");
+              const optionTag = document.createElement("option");
               optionTag.textContent = ytTitle;
               optionTag.setAttribute("value", ytId);
               movieid.appendChild(optionTag);
@@ -245,9 +247,9 @@
       }
 
       //検索ボタンイベント
-      let ytSearchBtn = document.querySelector("#searchBtn");
+      const ytSearchBtn = document.querySelector("#searchBtn");
       ytSearchBtn.addEventListener("click", function (e) {
-        let ytSearchVal = document.querySelector("#ytSearch").value;
+        const ytSearchVal = document.querySelector("#ytSearch").value;
         ytSearch(ytSearchVal);
         e.preventDefault(); //検索ボタンの送信をストップしておく。
       });
